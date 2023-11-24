@@ -137,8 +137,6 @@ if not st.session_state.llm_is_processing:
 
 
 ################################### GENERATE RESPONSE ###################################
-st.write(st.session_state.question_order)
-st.write(len(prompt_dict))
 # Avoid llm input null string
 if st.session_state.llm_is_processing or st.session_state.question_order >= len(prompt_dict):
     generate_response(prompt)
