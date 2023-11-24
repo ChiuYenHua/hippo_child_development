@@ -43,7 +43,7 @@ def generate_response(prompt):
 
 
     # To slow down for better gui
-    time.sleep(0.5)
+    time.sleep(0.3)
 
     # Rerun for asking next question
     st.rerun()
