@@ -38,7 +38,7 @@ class model():
     # system_prompt -> prompt for system to briefly illustrate the goal
     # ai_prompt     -> prompt for every question asked by ai
     # user_prompt   -> prompt for user input
-    def model(self, system_prompt, ai_prompt, user_prompt):
+    def model_for_score(self, system_prompt, ai_prompt, user_prompt):
         # This is a prompt template used to format each individual example.
         example_prompt = ChatPromptTemplate.from_messages(
             [
@@ -47,6 +47,9 @@ class model():
                 ('ai', 'Score for this answer will be: {score}') ,
             ]
         )
+
+        print(f'exapmle_prompt: {example_prompt}')
+        print(f'examples: {self.cutted_prompt_data}')
 
         few_shot_prompt = FewShotChatMessagePromptTemplate(
             example_prompt=example_prompt,
@@ -78,5 +81,31 @@ class model():
             open_ai_callback = cb
 
         return open_ai_callback, open_ai_score
+    
+    def model_for_chat(self, system_prompt, messages):
+        # Prompt must include all chat history
+        chat_history = []
+        chat_history.append(("system", system_prompt))
+
+        # Put all chat history in prompt
+        for every_chat in messages:
+            if every_chat['role'] == 'assistant':
+                chat_history.append(("ai", every_chat['content']))
+            else:
+                chat_history.append((every_chat['content']))
+
+        chat_template = ChatPromptTemplate.from_messages(chat_history)
+
+        # Model
+        chain = chat_template | ChatOpenAI(openai_api_key=st.secrets["open_ai_key"], 
+                                        model_name="gpt-3.5-turbo",
+                                        temperature=1)
+
+        ## Tracking token usage
+        with get_openai_callback() as cb:
+            open_ai_response = chain.invoke({"input": '123'})
+            open_ai_callback = cb
+
+        return open_ai_callback, str(open_ai_response)[9:-1]
 
 

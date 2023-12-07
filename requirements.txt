@@ -2,3 +2,4 @@ streamlit
 plotly
 pandas
 langchain[all]
+streamlit_extras
