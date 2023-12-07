@@ -131,17 +131,9 @@ st.set_page_config(
 
 # Title
 if st.session_state.in_consulation == True:
-    col1,col2=st.columns([8,1])
-    with col1:
-        st.title("Child development consultants")
-    with col2:
-        st.image('logo.png',width=100)
+    st.title("Child development consultants :tiger:")
 else:
-    col1,col2=st.columns([6,1])
-    with col1:
-        st.title("Child development report")
-    with col2:
-        st.image('logo.png',width=100)
+    st.title("Child development report   :sheep:")
 
 # Consulatino or Show results
 if st.session_state.in_consulation:
@@ -376,9 +368,9 @@ else:
 
 
 with st.sidebar:
-    col1,col2,col3 = st.columns([3,10,1])
+    col1,col2,col3 = st.columns([5,10,1])
     with col2:
-        st.image('logo.png', width=200)
+        st.image('logo.png', width=120)
 
     question = [str(i+1) + '. ' + prompt_dict[i*5]['question'] for i in range(int(len(prompt_dict)/5))]
     option = st.selectbox(
